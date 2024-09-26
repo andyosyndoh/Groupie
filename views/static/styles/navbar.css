@@ -54,5 +54,12 @@
 	color: purple; /* Same orange color for the brand */
 	text-transform: uppercase; /* Uppercase for style */
   }
+
+  .search-bar {
+	background-color: rgb(230, 140, 230);
+	color: black;
+	padding: 5px 5px;
+	border-radius: 8px;
+  }
   
   
