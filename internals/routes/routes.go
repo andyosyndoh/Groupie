@@ -12,6 +12,7 @@ import (
 var allowedRoutes = map[string]bool{
 	"/":        true,
 	"/details": true,
+	"/api/search": true,
 }
 
 // RouteChecker is a middleware that checkes allowed routes
@@ -42,5 +43,9 @@ func RegisterRoutes(mux *http.ServeMux) {
 
 	mux.HandleFunc("/details", func(w http.ResponseWriter, r *http.Request) {
 		handlers.Details(w, r)
+	})
+
+	mux.HandleFunc("/api/search", func(w http.ResponseWriter, r *http.Request) {
+		handlers.SearchArtists(w, r)
 	})
 }
