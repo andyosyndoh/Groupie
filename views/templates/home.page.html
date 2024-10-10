@@ -13,6 +13,11 @@ Home
 {{end}}
 
 {{define "content"}}
+<div class="search-container">
+  <input type="text" id="search-bar" placeholder="Search for artists, members, locations...">
+  <ul id="suggestions"></ul>
+</div>
+
 <div class="grid-container">
   {{ range . }}
   <!-- Make the whole card clickable by wrapping it in an <a> tag -->
@@ -26,4 +31,60 @@ Home
   </a>
   {{ end }}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchBar = document.getElementById('search-bar');
+    const suggestionsList = document.getElementById('suggestions');
+    const gridContainer = document.querySelector('.grid-container');
+
+    searchBar.addEventListener('input', debounce(searchArtists, 300));
+
+    async function searchArtists() {
+        const query = searchBar.value;
+        if (query.length < 2) {
+            suggestionsList.innerHTML = "";
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+            const suggestions = await response.json();
+            
+            suggestionsList.innerHTML = '';
+            suggestions.forEach(suggestion => {
+                const li = document.createElement('li');
+                li.textContent = suggestion.split('&')[1];
+                li.addEventListener('click', () => {
+                    const id = suggestion.split('&')[0];
+                    window.location.href = `/details?id=${encodeURIComponent(id)}`;
+                });
+                suggestionsList.appendChild(li);
+            });
+        } catch (error) {
+            console.error('Error fetching search suggestions:', error);
+        }
+    }
+
+    function filterResults(query) {
+        const cards = gridContainer.querySelectorAll('.card-link');
+        cards.forEach(card => {
+            const name = card.querySelector('h2').textContent.toLowerCase();
+            if (name.includes(query.toLowerCase())) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function debounce(func, delay) {
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+});
+</script>
 {{end}}

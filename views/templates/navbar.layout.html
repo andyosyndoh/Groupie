@@ -9,42 +9,48 @@
             <a id="home" href="/">Groupie Tracker</a>
         </li>
     </ul>
-    <div class="search-bar">
+    <!-- <div class="search-bar">
         <input type="text" id="search-bar" placeholder="search for artist" oninput="searchArtists()" autocomplete="off">
-        <ul id="suggestions"></ul> <!-- Suggestions dropdown -->
+        <ul id="suggestions"></ul>
     </div>
+     -->
+
+     
 </div>
 
 <script>
-// Search for artists as you type
 async function searchArtists() {
     const query = document.getElementById('search-bar').value;
     const suggestionsList = document.getElementById('suggestions');
-
-    if (query.length < 2) {
-        suggestionsList.innerHTML = ""; // Clear suggestions if query is too short
+    
+    if (query.length < 3) {
+        suggestionsList.innerHTML = "";
         return;
     }
+    
+    try {
+        const response = await fetch(`/api/search?q=${query}`);
+        const results = await response.json();
+        console.log('API Results:', results);
+        
+        suggestionsList.innerHTML = '';
+        
+        if (Array.isArray(results)) {
+            results.forEach(item => {
+                displaySuggestion(item, suggestionsList);
+            });
+        } else {
+            console.error('Expected an array of results, but got:', typeof results);
+        }
+    } catch (error) {
+        console.error('Error fetching or processing data:', error);
+    }
+}
 
-    // Fetch search results from the API
-    const response = await fetch(`/api/search?q=${query}`);
-    const results = await response.json();
-
-    // Clear the suggestions list
-    suggestionsList.innerHTML = '';
-
-    // Add search results as suggestions
-    results.forEach(artist => {
-        const li = document.createElement('li');
-        li.textContent = `${artist.Name} - artist/band`;
-        suggestionsList.appendChild(li);
-
-        artist.Members.forEach(member => {
-            const liMember = document.createElement('li');
-            liMember.textContent = `${member} - member`;
-            suggestionsList.appendChild(liMember);
-        });
-    });
+function displaySuggestion(item, suggestionsList) {
+    let li = document.createElement('li');
+    li.textContent = `${item.name} - Artiste`;
+    suggestionsList.appendChild(li);
 }
 </script>
 {{end}}
