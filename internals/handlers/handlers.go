@@ -101,32 +101,41 @@ func Details(w http.ResponseWriter, r *http.Request) {
 
 // SearchArtists handles search requests
 func SearchArtists(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query().Get("q")
-	query = strings.ToLower(query)
+	query := strings.ToLower(r.URL.Query().Get("q"))
+	if len(query) < 2 {
+		json.NewEncoder(w).Encode([]string{})
+		return
+	}
 
-	var results []interface{}
+	var suggestions []string
 
 	for _, artist := range arts {
-		// Check name, members, or other fields for a match
-		if strings.Contains(strings.ToLower(artist.Name), query) ||
-			stringInSlice(query, artist.Members) ||
-			strings.Contains(strings.ToLower(artist.FirstAlbum), query) ||
-			strings.Contains(strings.ToLower(artist.LocationsURL), query) ||
-			strings.Contains(strings.ToLower(strconv.Itoa(artist.CreationDate)), query) {
-			results = append(results, artist)
+		// Search by artist/band name
+		if strings.Contains(strings.ToLower(artist.Name), query) {
+			suggestions = append(suggestions, fmt.Sprintf("%d&%s - artist/band", artist.ID, artist.Name))
 		}
-	}
-	fmt.Println(results)
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(results)
-}
 
-// Helper function to search in a slice of strings
-func stringInSlice(query string, list []string) bool {
-	for _, v := range list {
-		if strings.Contains(strings.ToLower(v), query) {
-			return true
+		// Search by members
+		for _, member := range artist.Members {
+			if strings.Contains(strings.ToLower(member), query) {
+				suggestions = append(suggestions, fmt.Sprintf("%d&%s - member", artist.ID, member))
+			}
+		}
+
+		// Search by first album date
+		if strings.Contains(strings.ToLower(artist.FirstAlbum), query) {
+			suggestions = append(suggestions, fmt.Sprintf("%d&%s - first album: %s", artist.ID, artist.Name, artist.FirstAlbum))
+		}
+
+		// Search by creation date
+		// creationYear := time.Unix(int64(artist.CreationDate), 0).Year()
+		if strings.Contains(strings.ToLower(strconv.Itoa(artist.CreationDate)), query) {
+			suggestions = append(suggestions, fmt.Sprintf("%d&%v - created: %d", artist.ID, artist.Name, artist.CreationDate))
 		}
 	}
-	return false
+
+	
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(suggestions)
 }
