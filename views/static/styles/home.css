@@ -52,3 +52,49 @@
   background-color: purple;
   font-family: 'Lobster', cursive;
 }
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 20px auto;
+  z-index: 1000; /* Ensure the search bar and suggestions appear above other content */
+}
+
+#search-bar {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: rgb(212, 49, 163);
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 300px; /* Increased max-height for better visibility */
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for better separation */
+}
+
+#suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Ensure the grid container doesn't affect the positioning of the search bar and suggestions */
+.grid-container {
+  position: relative;
+  z-index: 1; /* Lower z-index than the search container */
+}
