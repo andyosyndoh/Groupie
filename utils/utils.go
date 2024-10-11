@@ -77,6 +77,15 @@ func Getsingleartist(ID int) (Artists, error) {
 	return Artists{}, fmt.Errorf("location with ID %d not found", ID)
 }
 
+func GetallLocations() (Locations, error){
+	locations := Locations{}
+	err := unmarshalData("/locations", &locations)
+	if err != nil {
+		return Locations{}, err
+	}
+	return locations, nil
+}
+
 func GetLocations(ID int) (Location, error) {
 	locations := Locations{}
 	err := unmarshalData("/locations", &locations)
