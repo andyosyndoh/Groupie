@@ -116,6 +116,15 @@ func GetDates(ID int) (Date, error) {
 	return Date{}, fmt.Errorf("date with ID %d not found", ID)
 }
 
+func GetallDates() (Dates, error){
+	dates := Dates{}
+	err := unmarshalData("/dates", &dates)
+	if err != nil {
+		return Dates{}, err
+	}
+	return dates , nil
+}
+
 func GetRelation(ID int) (ArtistDetails, error) {
 	relation := Relation{}
 	err := unmarshalData("/relation", &relation)
