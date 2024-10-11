@@ -134,7 +134,27 @@ func SearchArtists(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	
+	locations, err := utils.GetallLocations()
+	if err != nil {
+		ServerErrorHandler(w, r)
+		// http.Error(w, "Failed to retrieve location data", http.StatusInternalServerError)
+		log.Printf("Error retrieving location data: %v", err)
+		return
+	}
+
+	for _, loc := range locations.Index {
+		for _, v := range loc.Locations {
+			if strings.Contains(v, query) {
+				name := ""
+				for _, artist := range arts {
+					if artist.ID == loc.ID{
+						name = artist.Name
+					}
+				}
+				suggestions = append(suggestions, fmt.Sprintf("%v&%v - Performing at: %v", loc.ID,name , v))
+			}
+		}
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(suggestions)
