@@ -1,154 +1,124 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  color: white
-    /* Set default text color to white */
-}
+/* Import the base CSS */
+@import url('base-css-file-path.css');
 
-/* Container Styling */
-.container {
-  width: 80%;
-  margin: 0 auto;
+/* Details page specific styles */
+body {
+  background-color: var(--gray-light);
   padding: 20px;
 }
 
-/* Card Styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .card {
-  background-color: transparent;
+  background-color: var(--white);
   border-radius: 10px;
-  box-shadow: 0 4px 8px white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin-bottom: 20px;
-  padding: 15px;
 }
 
-/* Artist Details Card */
 .artist-details-card {
   display: flex;
-  align-items: center;
-  padding: 20px;
-  width: 70%;
-  margin: 0 auto 20px;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .artist-details-card {
+    flex-direction: row;
+  }
 }
 
 .artist-details-card img {
-  width: 150px;
+  width: 100%;
+  max-width: 300px;
   height: auto;
-  border-radius: 8px;
-  margin-right: 20px;
+  object-fit: cover;
 }
 
-.artist-details-card .card-content {
-  flex: 1;
+.card-content {
+  padding: 20px;
 }
 
-.artist-details-card h2 {
-  font-size: 1.8rem;
-  margin-top: 0;
-  color: rgb(52, 243, 243);
-  /* Set heading color*/
+.card-content h2 {
+  color: var(--purple-dark);
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  margin-bottom: 15px;
 }
 
-
-.artist-details-card ul {
-  list-style: none;
+.card-content ul {
+  list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
-.artist-details-card li {
+.card-content ul li {
   margin-bottom: 10px;
-  font-size: 1.2rem;
-  /* color: white; Ensure list items are visible */
 }
 
-/* Card Container Styles */
 .card-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
-  flex-wrap: wrap;
 }
 
-/* Specific Card Styles */
+@media (min-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .locations-card,
 .dates-card,
 .relations-card {
-  flex: 1;
-  min-width: 250px;
-  background-color: transparent;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px white;
-  padding: 15px;
+  height: 100%;
 }
 
 .locations-card h3,
 .dates-card h3,
 .relations-card h3 {
-  margin-top: 0;
-  font-size: 1.3rem;
-  color: aliceblue;
-  /* Heading color */
+  color: var(--purple-primary);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  margin-bottom: 15px;
+  padding: 15px 20px 0;
 }
 
-.card:hover,
-.locations-card:hover,
-.dates-card:hover,
-.relations-card:hover {
-  box-shadow: 0 8px 16px rgba(128, 0, 128, 0.8); /* Bolder purple shadow on hover */
-}
-
-ul {
+.locations-card ul,
+.dates-card ul,
+.relations-card ul {
   list-style-type: none;
-  padding: 0;
-  color: white;
+  padding: 0 20px 20px;
+  margin: 0;
 }
 
-li {
-  margin-bottom: 10px;
-  color: white;
-  /* Ensure list items are visible */
+.locations-card li,
+.dates-card li,
+.relations-card li {
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 .back-button {
-  background-color: purple; /* Green background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 10px 20px; /* Some padding */
-  text-align: center; /* Center the text */
-  text-decoration: none; /* Remove underline */
-  display: inline-block; /* Make the button inline */
-  font-size: 16px; /* Set font size */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer on hover */
-  transition: background-color 0.3s ease; /* Smooth background transition */
-}
-
-.back-button a {
-  color: white; /* White link text */
-  text-decoration: none; /* Remove underline */
+  display: inline-block;
+  background-color: var(--purple-primary);
+  color: var(--white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .back-button:hover {
-  background-color: violet; /* Darker green on hover */
+  background-color: var(--purple-light);
 }
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .card-container {
-    flex-direction: column;
-  }
-
-  .artist-details-card {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  .artist-details-card img {
-    margin-bottom: 15px;
-    margin-right: 0;
-  }
+.back-button a {
+  color: var(--white);
+  text-decoration: none;
 }

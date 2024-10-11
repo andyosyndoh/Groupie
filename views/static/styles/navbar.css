@@ -1,65 +1,62 @@
-/* General Styles for Navbar */
+/* Navbar styles */
 .navbar {
-	background-color: aliceblue; /* Dark background for the navbar */
-	padding: 15px 20px; /* Add some padding for spacing */
-	display: flex;
-	justify-content: space-between; /* Align items to the edges */
-	align-items: center; /* Vertically center the items */
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+	background-color: var(--purple-dark);
+	padding: 15px 20px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	position: sticky;
 	top: 0;
-	font-family: 'Lobster', cursive;
-	z-index: 100; /* Ensures the navbar stays on top of content */
+	z-index: 1000;
   }
   
-  /* Styling the Navbar List */
-  .navbar ul {
-	list-style-type: none; /* Remove bullet points */
-	margin: 0;
-	padding: 0;
-	display: flex; /* Display items in a row */
+  #home {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 24px;
+	font-weight: 700;
+	color: var(--white);
+	text-decoration: none;
+	transition: color 0.3s ease;
   }
   
-  /* Navbar Items */
-  .navbar ul li {
-	margin-left: 20px; /* Add space between items */
+  #home:hover {
+	color: var(--purple-light);
   }
   
-  /* Navbar Links */
-  .navbar ul li a {
-	color: #fff; /* White text color for contrast */
-	text-decoration: none; /* Remove underline */
-	font-size: 1.2rem; /* Slightly larger font */
-	font-weight: bold;
-	padding: 10px 15px; /* Add padding around the links */
-	transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
-	border-radius: 8px; /* Rounded corners for the link background */
+  /* Add a subtle gradient effect */
+  .navbar::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: linear-gradient(to right, var(--purple-light), var(--purple-primary));
   }
   
-  /* Hover Effect */
-  .navbar ul li a:hover {
-	background-color: violet; /* Slightly lighter color on hover */
-	color: #f1f1f1; /* Light gray text color on hover */
+  /* Responsive design */
+  @media (max-width: 768px) {
+	.navbar {
+	  padding: 10px 15px;
+	}
+  
+	#home {
+	  font-size: 20px;
+	}
   }
   
-  /* Active Link (Home) */
-  .navbar ul li a#home {
-	color: purple; /* Orange color for active link */
+  /* Optional: Add animation for the gradient */
+  @keyframes gradientAnimation {
+	0% {
+	  background-position: 0% 50%;
+	}
+	50% {
+	  background-position: 100% 50%;
+	}
+	100% {
+	  background-position: 0% 50%;
+	}
   }
   
-  /* Navbar Brand Name */
-  .navbar ul li:first-child a {
-	font-size: 1.5rem; /* Larger font size for brand name */
-	font-weight: bold; /* Emphasize the brand name */
-	color: purple; /* Same orange color for the brand */
-	text-transform: uppercase; /* Uppercase for style */
+  .navbar::after {
+	animation: gradientAnimation 5s ease infinite;
+	background-size: 200% 200%;
   }
-
-  .search-bar {
-	background-color: rgb(230, 140, 230);
-	color: black;
-	padding: 5px 5px;
-	border-radius: 8px;
-  }
-  
-  

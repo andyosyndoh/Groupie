@@ -4,7 +4,7 @@
 <link
     rel="stylesheet"
     href="../static/styles/home.css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet"
 />
 {{end}}
 
@@ -14,7 +14,7 @@ Home
 
 {{define "content"}}
 <div class="search-container">
-  <input type="text" id="search-bar" placeholder="Search for artists, members, locations...">
+  <input type="text" id="search-bar" placeholder="Search for artists, members, locations, dates...">
   <ul id="suggestions"></ul>
 </div>
 
@@ -23,7 +23,7 @@ Home
   <!-- Make the whole card clickable by wrapping it in an <a> tag -->
   <a href="/details?id={{ .ID }}" class="card-link">
     <div class="card">
-      <img src="{{ .ImageURL }}" alt="image">
+      <img src="{{ .ImageURL }}" alt="{{ .Name }}">
       <div class="card-content">
         <h2>{{ .Name }}</h2>
       </div>

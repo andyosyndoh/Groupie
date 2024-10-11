@@ -1,70 +1,30 @@
-/* Grid container for cards */
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+/* Import the base CSS */
+@import url('base-css-file-path.css');
+
+/* Home page specific styles */
+body {
   padding: 20px;
+  background-color: var(--gray-light);
 }
 
-/* Card Styles */
-.card {
-  background-color: transparent;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px purple;
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer;
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-  border-bottom: 1px solid #ddd;
-  opacity: 0.6;
-}
-
-.card img:hover {
-  opacity: 4; /* Dim the image by reducing its opacity */
-}
-
-.card-content h2 {
-  margin: 15px 0;
-  font-size: 1.5rem;
-  color: white;
-}
-
-/* Make the anchor tag covering the entire card */
-.card-link {
-  text-decoration: none;
-  color: inherit; /* Inherit text color to ensure it doesn't look like a regular link */
-  display: block;
-}
-
-.card-link:hover .card {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px violet;
-
-}
-
-/* Button hover effect */
-.card:hover {
-  background-color: purple;
-  font-family: 'Lobster', cursive;
-}
 .search-container {
-  position: relative;
   max-width: 600px;
-  margin: 20px auto;
-  z-index: 1000; /* Ensure the search bar and suggestions appear above other content */
+  margin: 0 auto 30px;
+  position: relative;
 }
 
 #search-bar {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 15px 20px;
+  font-size: 18px;
+  border: 2px solid var(--purple-light);
+  border-radius: 25px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#search-bar:focus {
+  border-color: var(--purple-primary);
 }
 
 #suggestions {
@@ -72,29 +32,86 @@
   top: 100%;
   left: 0;
   right: 0;
-  background-color: rgb(212, 49, 163);
+  background-color: #b207d498; /* Changed to darker background */
+  border: 1px solid #f1efefa4;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   list-style-type: none;
   padding: 0;
   margin: 0;
-  border: 1px solid #ddd;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  max-height: 300px; /* Increased max-height for better visibility */
+  max-height: 200px;
   overflow-y: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for better separation */
+  z-index: 1000;
 }
 
 #suggestions li {
-  padding: 10px;
+  padding: 10px 20px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: var(--white); /* Added for better contrast with dark background */
 }
 
 #suggestions li:hover {
-  background-color: #f0f0f0;
+  background-color: var(--purple-light);
+  color: var(--white);
 }
 
-/* Ensure the grid container doesn't affect the positioning of the search bar and suggestions */
 .grid-container {
-  position: relative;
-  z-index: 1; /* Lower z-index than the search container */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.card-link:hover {
+  transform: translateY(-5px);
+}
+
+.card {
+  background-color: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+.card-content h2 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--purple-dark);
+  font-family: 'Playfair Display', serif; /* Changed font for names */
+  font-weight: 700; /* Make it bold */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
 }
