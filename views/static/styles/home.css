@@ -115,3 +115,10 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+#filter-feedback {
+  text-align: center;
+  margin: 10px 0;
+  font-style: italic;
+  color: #666;
+}
