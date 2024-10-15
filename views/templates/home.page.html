@@ -119,8 +119,6 @@
 
       if (visibleCards === totalCards) {
         feedbackEl.textContent = "";
-      } else if (visibleCards === 0) {
-        feedbackEl.textContent = "No results found.";
       } else {
         feedbackEl.textContent = `Showing ${visibleCards} of ${totalCards} results.`;
       }
