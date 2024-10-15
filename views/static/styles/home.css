@@ -32,7 +32,7 @@ body {
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #23052998; /* Changed to darker background */
+  background-color: #3f0b4b; /* Changed to darker background */
   border: 1px solid #f1efefa4;
   border-radius: 0 0 15px 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -47,7 +47,7 @@ body {
 #suggestions li {
   padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
   color: var(--white); /* Added for better contrast with dark background */
 }
 
