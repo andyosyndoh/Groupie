@@ -1,122 +1,138 @@
-{{template "base" . }}
-{{define "css"}}
-<link rel="stylesheet" href="../static/styles/home.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-{{end}}
-{{define "title"}}Home{{end}}
-{{define "content"}}
+{{template "base" . }} {{define "css"}}
+<link rel="stylesheet" href="../static/styles/home.css" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+  rel="stylesheet"
+/>
+{{end}} {{define "title"}}Home{{end}} {{define "content"}}
 <div class="search-container">
-    <input type="text" id="search-bar" placeholder="Search for artists, members, locations, dates...">
-    <ul id="suggestions"></ul>
+  <input
+    type="text"
+    id="search-bar"
+    placeholder="Search for artists, members, locations, dates..."
+  />
+  <ul id="suggestions"></ul>
 </div>
 <div class="grid-container">
-    {{ range . }}
-    <a href="/details?id={{ .ID }}" class="card-link" data-id="{{ .ID }}" data-name="{{ .Name }}" data-members="{{ range .Members }}{{ . }} {{ end }}" data-creation-date="{{ .CreationDate }}" data-first-album="{{ .FirstAlbum }}">
-        <div class="card">
-            <img src="{{ .ImageURL }}" alt="{{ .Name }}">
-            <div class="card-content">
-                <h2>{{ .Name }}</h2>
-            </div>
-        </div>
-    </a>
-    {{ end }}
+  {{ range . }}
+  <a
+    href="/details?id={{ .ID }}"
+    class="card-link"
+    data-id="{{ .ID }}"
+    data-name="{{ .Name }}"
+    data-members="{{ range .Members }}{{ . }} {{ end }}"
+    data-creation-date="{{ .CreationDate }}"
+    data-first-album="{{ .FirstAlbum }}"
+  >
+    <div class="card">
+      <img src="{{ .ImageURL }}" alt="{{ .Name }}" />
+      <div class="card-content">
+        <h2>{{ .Name }}</h2>
+      </div>
+    </div>
+  </a>
+  {{ end }}
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchBar = document.getElementById('search-bar');
-    const suggestionsList = document.getElementById('suggestions');
-    const gridContainer = document.querySelector('.grid-container');
-    let lastQuery = '';
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchBar = document.getElementById("search-bar");
+    const suggestionsList = document.getElementById("suggestions");
+    const gridContainer = document.querySelector(".grid-container");
+    let lastQuery = "";
 
-    searchBar.addEventListener('input', debounce(searchArtists, 300));
-    searchBar.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            filterCards(searchBar.value);
-            suggestionsList.innerHTML = '';
-        }
+    searchBar.addEventListener("input", debounce(searchArtists, 300));
+    searchBar.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        filterCards(searchBar.value);
+        suggestionsList.innerHTML = "";
+      }
     });
 
     async function searchArtists() {
-        const query = searchBar.value;
-        if (query.length < 2) {
-            suggestionsList.innerHTML = "";
-            return;
-        }
-        try {
-            const suggestions = await fetchSuggestions(query);
-            displaySuggestions(suggestions);
-        } catch (error) {
-            console.error('Error fetching search suggestions:', error);
-        }
+      const query = searchBar.value;
+      if (query.length < 2) {
+        suggestionsList.innerHTML = "";
+        return;
+      }
+      try {
+        const suggestions = await fetchSuggestions(query);
+        displaySuggestions(suggestions);
+      } catch (error) {
+        console.error("Error fetching search suggestions:", error);
+      }
     }
 
     async function fetchSuggestions(query) {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-        return await response.json();
+      const response = await fetch(
+        `/api/search?q=${encodeURIComponent(query)}`
+      );
+      return await response.json();
     }
 
     function displaySuggestions(suggestions) {
-        suggestionsList.innerHTML = '';
-        suggestions.forEach(suggestion => {
-            const li = document.createElement('li');
-            li.textContent = suggestion.split('&')[1];
-            li.addEventListener('click', () => {
-                const id = suggestion.split('&')[0];
-                window.location.href = `/details?id=${encodeURIComponent(id)}`;
-            });
-            suggestionsList.appendChild(li);
+      suggestionsList.innerHTML = "";
+      suggestions.forEach((suggestion) => {
+        const [id, name] = suggestion.split("&"); // Destructure the ID and name
+        const li = document.createElement("li");
+        li.textContent = name;
+
+        li.addEventListener("click", () => {
+          window.location.href = `/details?id=${encodeURIComponent(id)}`;
         });
+
+        suggestionsList.appendChild(li);
+      });
     }
 
     async function filterCards(query) {
-        if (query === lastQuery) return; // Avoid unnecessary filtering
-        lastQuery = query;
+      if (query === lastQuery) return; // Avoid unnecessary filtering
+      lastQuery = query;
 
-        query = query.toLowerCase();
-        const cards = gridContainer.querySelectorAll('.card-link');
-        const suggestions = await fetchSuggestions(query);
-        
-        let visibleCards = 0;
-        const matchingIds = suggestions.map(s => s.split('&')[0]);
+      query = query.toLowerCase();
+      const cards = gridContainer.querySelectorAll(".card-link");
+      const suggestions = await fetchSuggestions(query);
 
-        cards.forEach(card => {
-            const id = card.getAttribute('data-id');
-            if (matchingIds.includes(id)) {
-                card.style.display = 'block';
-                visibleCards++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
+      let visibleCards = 0;
+      const matchingIds = suggestions.map((s) => s.split("&")[0]);
 
-        updateFilterFeedback(visibleCards, cards.length);
+      cards.forEach((card) => {
+        const id = card.getAttribute("data-id");
+        if (matchingIds.includes(id)) {
+          card.style.display = "block";
+          visibleCards++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      updateFilterFeedback(visibleCards, cards.length);
     }
 
     function updateFilterFeedback(visibleCards, totalCards) {
-        let feedbackEl = document.getElementById('filter-feedback');
-        if (!feedbackEl) {
-            feedbackEl = document.createElement('div');
-            feedbackEl.id = 'filter-feedback';
-            gridContainer.parentNode.insertBefore(feedbackEl, gridContainer);
-        }
+      let feedbackEl = document.getElementById("filter-feedback");
+      if (!feedbackEl) {
+        feedbackEl = document.createElement("div");
+        feedbackEl.id = "filter-feedback";
+        gridContainer.parentNode.insertBefore(feedbackEl, gridContainer);
+      }
 
-        if (visibleCards === totalCards) {
-            feedbackEl.textContent = '';
-        } else if (visibleCards === 0) {
-            feedbackEl.textContent = 'No results found.';
-        } else {
-            feedbackEl.textContent = `Showing ${visibleCards} of ${totalCards} results.`;
-        }
+      if (visibleCards === totalCards) {
+        feedbackEl.textContent = "";
+      } else if (visibleCards === 0) {
+        feedbackEl.textContent = "No results found.";
+      } else {
+        feedbackEl.textContent = `Showing ${visibleCards} of ${totalCards} results.`;
+      }
     }
 
     function debounce(func, delay) {
-        let timeoutId;
-        return function(...args) {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => func.apply(this, args), delay);
-        };
+      let timeoutId;
+      return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
     }
-});
+  });
 </script>
 {{end}}
