@@ -15,11 +15,7 @@
 </div>
 <div class="grid-container">
   {{ range . }}
-  <a
-    href="/details?id={{ .ID }}"
-    class="card-link"
-    data-id="{{ .ID }}"
-  >
+  <a href="/details?id={{ .ID }}" class="card-link" data-id="{{ .ID }}">
     <div class="card">
       <img src="{{ .ImageURL }}" alt="{{ .Name }}" />
       <div class="card-content">
@@ -60,7 +56,9 @@
     }
 
     async function fetchSuggestions(query) {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/search?q=${encodeURIComponent(query)}`
+      );
       return await response.json();
     }
 
