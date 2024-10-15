@@ -25,7 +25,3 @@ func main() {
 		utils.ErrorHandler("web")
 	}
 }
-
-// func InitializeData(){
-// 	endpoints := []string{"/arti"}
-// }
