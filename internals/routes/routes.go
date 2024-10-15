@@ -10,8 +10,8 @@ import (
 
 // Allowed routes
 var allowedRoutes = map[string]bool{
-	"/":        true,
-	"/details": true,
+	"/":           true,
+	"/details":    true,
 	"/api/search": true,
 }
 
