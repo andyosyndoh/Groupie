@@ -135,7 +135,7 @@ func SearchArtists(w http.ResponseWriter, r *http.Request) {
 	}
 
 	locations, err := utils.GetallLocations()
-	dates , _ := utils.GetallDates()
+	dates, _ := utils.GetallDates()
 	if err != nil {
 		ServerErrorHandler(w, r)
 		// http.Error(w, "Failed to retrieve location data", http.StatusInternalServerError)
@@ -148,11 +148,11 @@ func SearchArtists(w http.ResponseWriter, r *http.Request) {
 			if strings.Contains(v, query) {
 				name := ""
 				for _, artist := range arts {
-					if artist.ID == loc.ID{
+					if artist.ID == loc.ID {
 						name = artist.Name
 					}
 				}
-				suggestions = append(suggestions, fmt.Sprintf("%v&%v - Performing at: %v", loc.ID,name , v))
+				suggestions = append(suggestions, fmt.Sprintf("%v&%v - Performing at: %v", loc.ID, name, v))
 			}
 		}
 	}
@@ -162,11 +162,11 @@ func SearchArtists(w http.ResponseWriter, r *http.Request) {
 			if strings.Contains(v, query) {
 				name := ""
 				for _, artist := range arts {
-					if artist.ID == loc.ID{
+					if artist.ID == loc.ID {
 						name = artist.Name
 					}
 				}
-				suggestions = append(suggestions, fmt.Sprintf("%v&%v - Performing on: %v", loc.ID,name , v))
+				suggestions = append(suggestions, fmt.Sprintf("%v&%v - Performing on: %v", loc.ID, name, v))
 			}
 		}
 	}
