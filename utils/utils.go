@@ -77,7 +77,7 @@ func Getsingleartist(ID int) (Artists, error) {
 	return Artists{}, fmt.Errorf("location with ID %d not found", ID)
 }
 
-func GetallLocations() (Locations, error){
+func GetallLocations() (Locations, error) {
 	locations := Locations{}
 	err := unmarshalData("/locations", &locations)
 	if err != nil {
@@ -116,13 +116,13 @@ func GetDates(ID int) (Date, error) {
 	return Date{}, fmt.Errorf("date with ID %d not found", ID)
 }
 
-func GetallDates() (Dates, error){
+func GetallDates() (Dates, error) {
 	dates := Dates{}
 	err := unmarshalData("/dates", &dates)
 	if err != nil {
 		return Dates{}, err
 	}
-	return dates , nil
+	return dates, nil
 }
 
 func GetRelation(ID int) (ArtistDetails, error) {
