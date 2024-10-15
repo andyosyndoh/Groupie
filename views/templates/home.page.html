@@ -19,10 +19,6 @@
     href="/details?id={{ .ID }}"
     class="card-link"
     data-id="{{ .ID }}"
-    data-name="{{ .Name }}"
-    data-members="{{ range .Members }}{{ . }} {{ end }}"
-    data-creation-date="{{ .CreationDate }}"
-    data-first-album="{{ .FirstAlbum }}"
   >
     <div class="card">
       <img src="{{ .ImageURL }}" alt="{{ .Name }}" />
